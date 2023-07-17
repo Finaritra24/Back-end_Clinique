@@ -62,11 +62,11 @@ public class Patient extends DBTable {
         this.idGenre = idGenre;
     }
 
-    public String getStringNaissance() {
+    public String getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setStringNaissance(String dateNaissance) {
+    public void setDateNaissance(String dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
 
