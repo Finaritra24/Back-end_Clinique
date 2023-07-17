@@ -60,11 +60,11 @@ public class AchatPatient extends DBTable {
         this.prix = prix;
     }
 
-    public String getStringRecette() {
+    public String getDateRecette() {
         return dateRecette;
     }
 
-    public void setStringRecette(String dateRecette) {
+    public void setDateRecette(String dateRecette) {
         this.dateRecette = dateRecette;
     }
 
