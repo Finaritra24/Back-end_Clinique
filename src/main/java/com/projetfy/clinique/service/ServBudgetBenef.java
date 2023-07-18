@@ -15,7 +15,7 @@ public class ServBudgetBenef {
         try {
             // select sum(prix) from achatpatient where EXTRACT(YEAR FROM daterecette)=2023 and (MONTH FROM daterecette)=2
             Connection con = new Connex().getConnection();
-           
+            
              PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
