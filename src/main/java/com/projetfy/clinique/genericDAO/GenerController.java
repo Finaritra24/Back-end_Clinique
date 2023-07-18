@@ -123,6 +123,10 @@ public class GenerController {
                     if (cookie.getName().equals("budget")) {
                         return cookie.getValue();
                     }
+                }else if(nameClass.equals("BudgetBenef")){
+                    if (cookie.getName().equals("budgetbenef")) {
+                        return cookie.getValue();
+                    }
                 }
                 else{
                     Class c=Class.forName("com.projetfy.clinique.model."+nameClass);

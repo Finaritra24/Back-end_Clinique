@@ -6,12 +6,32 @@ public class CategorieRecette extends DBTable {
     private String idCategorieRecette;
     private String nom;
     private String img;
+    private double budget;
+    private String code;
+
+    public double getBudget() {
+        return this.budget;
+    }
+
+    public void setBudget(double budget) {
+        this.budget = budget;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public CategorieRecette() {}
 
-    public CategorieRecette(String nom, String img) {
+    public CategorieRecette(String nom, String img,double budget,String code) {
         this.nom = nom;
         this.img = img;
+        this.budget=budget;
+        this.code=code;
     }
 
     public String getIdCategorieRecette() {
