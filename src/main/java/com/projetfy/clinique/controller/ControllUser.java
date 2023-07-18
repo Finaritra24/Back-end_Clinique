@@ -40,7 +40,7 @@ public class ControllUser {
             
             if (btest) {
                 String id=new ServUser().getIdUser(identification, mdp);
-                Cookie cookie = new Cookie("userId", id);
+                Cookie cookie = new Cookie("idUtilisateur", id);
                 cookie.setMaxAge(60 * 60 * 24); // Durée de vie du cookie (1 jour)
                 response.addCookie(cookie);
                 HttpHeaders headers = new HttpHeaders();
@@ -56,12 +56,12 @@ public class ControllUser {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("userId")) {
+                if (cookie.getName().equals("idUtilisateur")) {
                     return cookie.getValue();
                 }
             }
         }
-        return "null"; // Cookie non trouvé
+        return "USR1"; // Cookie non trouvé
     }
     //finuser
 }

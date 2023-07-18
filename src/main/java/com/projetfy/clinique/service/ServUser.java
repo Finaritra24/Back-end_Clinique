@@ -16,7 +16,7 @@ public class ServUser {
 
     public static String getIdUser(String identification, String mdp) throws Exception{
         Vector<Utilisateur> list=new Utilisateur().find("SELECT * FROM utilisateur where identification='"+identification+"' and passwrd='"+mdp+"'", null);
-        String a=list.get(0).getIdUser();
+        String a=list.get(0).getIdUtilisateur();
         return a;
     }
     public static Vector<Utilisateur> listUtilisateur() throws Exception{

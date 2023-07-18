@@ -66,18 +66,26 @@ public class GenerController {
         String path = request.getRequestURI().substring(request.getContextPath().length()).replace("/setCookie-",""); // Récupère le chemin de l'URL
         String nameClass="";
         try {
-            Class c = Class.forName("com.projetfy.clinique.model."+path);
-            nameClass=c.getName().replace("com.projetfy.clinique.model.", "");
-            Cookie cookie = new Cookie("id"+nameClass, id);
-            if(path.equals("Panier")){
-                
+            if(path.equals("Budget")){
+                Cookie cookie = new Cookie("budget", id);
+                cookie.setMaxAge(60 * 60 * 24); // Durée de vie du cookie (1 jour)
+                response.addCookie(cookie);
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(new HttpHeaders().SET_COOKIE, cookie.toString());
+                response.setStatus(HttpServletResponse.SC_OK);
+                return "value:"+id;
             }
-            cookie.setMaxAge(60 * 60 * 24); // Durée de vie du cookie (1 jour)
-            response.addCookie(cookie);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(new HttpHeaders().SET_COOKIE, cookie.toString());
-            response.setStatus(HttpServletResponse.SC_OK);
-            return "Ajout Cookie réussie,nom cookie=id"+nameClass+"valeur="+id;
+            else{
+                Class c = Class.forName("com.projetfy.clinique.model."+path);
+                nameClass=c.getName().replace("com.projetfy.clinique.model.", "");
+                Cookie cookie = new Cookie("id"+nameClass, id);
+                cookie.setMaxAge(60 * 60 * 24); // Durée de vie du cookie (1 jour)
+                response.addCookie(cookie);
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(new HttpHeaders().SET_COOKIE, cookie.toString());
+                response.setStatus(HttpServletResponse.SC_OK);
+                return "Ajout Cookie réussie,nom cookie=id"+nameClass+"valeur="+id;
+            }
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -108,12 +116,19 @@ public class GenerController {
     @GetMapping("/getCookie-*")
     public static String getCookieObject(HttpServletRequest request,String nameClass) {
         try {
-        Class c=Class.forName("com.projetfy.clinique.model."+nameClass);
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("id"+nameClass)) {
-                    return cookie.getValue();
+                if(nameClass.equals("Budget")){
+                    if (cookie.getName().equals("budget")) {
+                        return cookie.getValue();
+                    }
+                }
+                else{
+                    Class c=Class.forName("com.projetfy.clinique.model."+nameClass);
+                        if (cookie.getName().equals("id"+nameClass)) {
+                        return cookie.getValue();
+                     }
                 }
             }
         }
@@ -179,7 +194,7 @@ public class GenerController {
                         if( lesAttributs[i].startsWith("id") && c.getDeclaredFields()[i].isAnnotationPresent(AnnotInsert.class)){
                             String namecId=lesAttributs[i].replace("id","");
                             Class cId=Class.forName("com.projetfy.clinique.model."+namecId);
-                            String myIdCookie=getCookieObject(request,path);
+                            String myIdCookie=getCookieObject(request,namecId);
                             Method method = c.getMethod(myMethod, String.class);
                             method.invoke(instance, myIdCookie);
                         }
@@ -250,7 +265,7 @@ public class GenerController {
                         Class cAttribut=c.getDeclaredFields()[i].getType();
                         String nameTypeAttribut=cAttribut.getTypeName();
                         myMethod="set" + toUpperCaseFirst(lesAttributs[i]);
-                        if(value=="" || value==null && i!=0){
+                        if(value=="" || value==null && i!=0 && !lesAttributs[i].equals("idUtilisateur")){
                             Method method = c.getMethod(myMethod, String.class);
                             method.invoke(instance, null);
                         }
@@ -258,7 +273,7 @@ public class GenerController {
                             if( lesAttributs[i].startsWith("id") && c.getDeclaredFields()[i].isAnnotationPresent(AnnotInsert.class)){
                                 String namecId=lesAttributs[i].replace("id","");
                                 Class cId=Class.forName("com.projetfy.clinique.model."+namecId);
-                                String myIdCookie=getCookieObject(request,path);
+                                String myIdCookie=getCookieObject(request,namecId);
                                 Method method = c.getMethod(myMethod, String.class);
                                 method.invoke(instance, myIdCookie);
                             }                        

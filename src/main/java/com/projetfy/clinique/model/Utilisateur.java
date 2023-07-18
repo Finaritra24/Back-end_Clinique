@@ -3,7 +3,7 @@ package com.projetfy.clinique.model;
 import com.projetfy.clinique.genericDAO.DBTable;
 
 public class Utilisateur extends DBTable {
-    private String idUser;
+    private String idUtilisateur;
     private String identification;
     private String passwrd;
 
@@ -14,12 +14,12 @@ public class Utilisateur extends DBTable {
         this.passwrd = passwrd;
     }
 
-    public String getIdUser() {
-        return idUser;
+    public String getIdUtilisateur() {
+        return idUtilisateur;
     }
 
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
+    public void setIdUtilisateur(String idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
     }
 
     public String getIdentification() {
@@ -48,7 +48,7 @@ public class Utilisateur extends DBTable {
 
     public String toString() {
         return "Utilisateur{" +
-                "idUser='" + idUser + '\'' +
+                "idUtilisateur='" + idUtilisateur + '\'' +
                 ", identification='" + identification + '\'' +
                 ", passwrd='" + passwrd + '\'' +
                 '}';

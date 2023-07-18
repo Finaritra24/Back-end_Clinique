@@ -1,20 +1,37 @@
 package com.projetfy.clinique.model;
 
 import com.projetfy.clinique.genericDAO.DBTable;
-import com.projetfy.clinique.genericDAO.AnnotInsert;
 
-public class Depense extends DBTable {
+public class VDepense extends DBTable {
     private String idDepense;
-    @AnnotInsert
     private String idUtilisateur;
     private String idCategorieDepense;
     private String nom;
     private double prix;
     private String dateDepense;
+    private String nomUtilisateur;
+    private String nomCateg;
 
-    public Depense() {}
+	public String getNomUtilisateur() {
+		return this.nomUtilisateur;
+	}
 
-    public Depense(String idUtilisateur, String idCategorieDepense, String nom, double prix, String dateDepense) {
+	public void setNomUtilisateur(String nomUtilisateur) {
+		this.nomUtilisateur = nomUtilisateur;
+	}
+
+	public String getNomCateg() {
+		return this.nomCateg;
+	}
+
+	public void setNomCateg(String nomCateg) {
+		this.nomCateg = nomCateg;
+	}
+
+
+    public VDepense() {}
+
+    public VDepense(String idUtilisateur, String idCategorieDepense, String nom, double prix, String dateDepense) {
         this.idUtilisateur = idUtilisateur;
         this.idCategorieDepense = idCategorieDepense;
         this.nom = nom;
@@ -71,11 +88,11 @@ public class Depense extends DBTable {
     }
 
     public String getNameAuto() {
-        return "DEP";
+        return "ACP";
     }
 
     public String getSeqName() {
-        return "sdepense";
+        return "sachatpatient";
     }
 
     public String toString() {
