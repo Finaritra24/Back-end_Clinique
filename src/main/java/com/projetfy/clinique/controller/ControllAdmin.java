@@ -53,15 +53,19 @@ public class ControllAdmin {
             String id=new ServAdmin().getIdAdmin(identification, mdp);
             String anneedefault="2023";
             String mois="1";
+            String nombre="3";
             Cookie cookie = new Cookie("adminId", id);
             Cookie cookie2 = new Cookie("budget", anneedefault);
             Cookie cookie3 = new Cookie("budgetbenef", mois);
+            Cookie cookie4 = new Cookie("nombre", nombre);
             cookie.setMaxAge(60 * 60 * 24); // Durée de vie du cookie (1 jour)
             cookie2.setMaxAge(60 * 60 * 24);
             cookie3.setMaxAge(60 * 60 * 24);
+            cookie4.setMaxAge(60 * 60 * 24);
             response.addCookie(cookie);
             response.addCookie(cookie2);
             response.addCookie(cookie3);
+            response.addCookie(cookie4);
             HttpHeaders headers = new HttpHeaders();
             headers.add(new HttpHeaders().SET_COOKIE, cookie.toString());
             headers.add(new HttpHeaders().SET_COOKIE, cookie2.toString());

@@ -24,6 +24,15 @@ public class ControllBudget {
         Vector<Budget> list=sb.list(cookieAnnee);
         return list; // Cookie non trouvé
     }
+    @GetMapping("/listbudgettop")
+    public Vector<Budget> getAdminIdTop(HttpServletRequest request) {
+        ServBudget sb=new ServBudget();
+        GenerController gc=new GenerController();
+        int cookieAnnee=Integer.parseInt(gc.getCookieObject(request, "Budget"));
+        int cookienombre=Integer.parseInt(gc.getCookieObject(request, "Nombre"));
+        Vector<Budget> list=sb.listtop(cookieAnnee,cookienombre);
+        return list; // Cookie non trouvé
+    }
     @GetMapping("/listrecette")
     public Vector<BudgetBenef> recette(HttpServletRequest request) {
         ServBudgetBenef sb=new ServBudgetBenef();
@@ -44,4 +53,6 @@ public class ControllBudget {
     }
 
     //fin admin
+
+    
 }

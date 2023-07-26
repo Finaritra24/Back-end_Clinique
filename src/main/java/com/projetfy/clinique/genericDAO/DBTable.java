@@ -76,7 +76,7 @@ public abstract class DBTable {
             }
         }
     }
-
+    
     public void delete(Connection con) throws Exception {
         String req = "delete from " + getClass().getSimpleName() + " where ";
         String[] lesAttributs = new String[getClass().getDeclaredFields().length];

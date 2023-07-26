@@ -66,6 +66,15 @@ public class GenerController {
         String path = request.getRequestURI().substring(request.getContextPath().length()).replace("/setCookie-",""); // Récupère le chemin de l'URL
         String nameClass="";
         try {
+            if(path.equals("Nombre")){
+                Cookie cookie = new Cookie("nombre", id);
+                cookie.setMaxAge(60 * 60 * 24); // Durée de vie du cookie (1 jour)
+                response.addCookie(cookie);
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(new HttpHeaders().SET_COOKIE, cookie.toString());
+                response.setStatus(HttpServletResponse.SC_OK);
+                return "value:"+id;
+            }
             if(path.equals("Budget")){
                 Cookie cookie = new Cookie("budget", id);
                 cookie.setMaxAge(60 * 60 * 24); // Durée de vie du cookie (1 jour)
@@ -75,6 +84,16 @@ public class GenerController {
                 response.setStatus(HttpServletResponse.SC_OK);
                 return "value:"+id;
             }
+            else if(path.equals("BudgetBenef")){
+                Cookie cookie = new Cookie("budgetbenef", id);
+                cookie.setMaxAge(60 * 60 * 24); // Durée de vie du cookie (1 jour)
+                response.addCookie(cookie);
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(new HttpHeaders().SET_COOKIE, cookie.toString());
+                response.setStatus(HttpServletResponse.SC_OK);
+                return "value:"+id;
+            }
+            
             else{
                 Class c = Class.forName("com.projetfy.clinique.model."+path);
                 nameClass=c.getName().replace("com.projetfy.clinique.model.", "");
@@ -115,7 +134,6 @@ public class GenerController {
     }
     @GetMapping("/getCookie-*")
     public static String getCookieObject(HttpServletRequest request,String nameClass) {
-        try {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -127,20 +145,20 @@ public class GenerController {
                     if (cookie.getName().equals("budgetbenef")) {
                         return cookie.getValue();
                     }
-                }
-                else{
-                    Class c=Class.forName("com.projetfy.clinique.model."+nameClass);
-                        if (cookie.getName().equals("id"+nameClass)) {
+                }else if(nameClass.equals("Nombre")){
+                    if (cookie.getName().equals("nombre")) {
                         return cookie.getValue();
-                     }
+                    }
                 }
+                // else{
+                //     Class c=Class.forName("com.projetfy.clinique.model."+nameClass);
+                //         if (cookie.getName().equals("id"+nameClass)) {
+                //         return cookie.getValue();
+                //      }
+                // }
             }
         }
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return "La class "+nameClass+" n'existe pas";
-        }
+       
         return null; // Cookie non trouvé
     }
     public int ifInListParameter(String[] lesAttributs,String nom){

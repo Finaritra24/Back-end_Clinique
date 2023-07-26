@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.type.TrueFalseConverter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import com.projetfy.clinique.model.ClassCsv;
 import com.projetfy.clinique.model.ObjetDepense;
 import com.projetfy.clinique.service.ServAdmin;
 import com.projetfy.clinique.service.ServDepense;
+import com.projetfy.clinique.service.ServRecette;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,19 +32,35 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ControllDepense {
     //admin
     @PostMapping("/ajoutdepense")
-    public String ajoutdepense(@RequestBody ObjetDepense data, HttpServletResponse response,HttpServletRequest request) throws Exception{
+    public ArrayList<String> ajoutdepense(@RequestBody ObjetDepense data, HttpServletResponse response,HttpServletRequest request) throws Exception{
         String jour = data.getJour();
         String annee=data.getAnnee();
         List<String>mois=data.getMois();
         String categorie=data.getCategorie();
         String nom=data.getNom();
-        double prix=data.getPrix();
+        String prix=data.getPrix();
         GenerController gc=new GenerController();
         String idu=gc.getCookieObject(request, "Utilisateur");
         ObjetDepense o=new ObjetDepense(jour, annee, mois, categorie, nom, prix);
         ServDepense sv=new ServDepense();
-        sv.ajoutdepense(idu, o);
-        return "ajout depense";
+        ArrayList<String> test=sv.ajoutdepense(idu, o);
+        if(sv.isDepense(categorie)!=0){
+        }
+        else{
+            
+            test.add("Code "+categorie +" n'existe pas");
+        }
+        if(sv.isDouble(prix)!=true){
+            test.add(""+prix+"n'est pas numeric");
+        }
+
+        if(test.size()>0){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }else if(test.size()==0){
+            sv.ajoutdepensevrai(idu, o);
+           response.setStatus(HttpServletResponse.SC_OK);
+        }
+        return test;
     }
     @PostMapping("/ajoutdepensecsv")
     public String ajoutdepensecsv(@RequestParam MultipartFile file) throws Exception {
@@ -75,4 +93,17 @@ public class ControllDepense {
         return "Effectue csv";
     }
     
+    @PostMapping("/validerrecette")
+    public String validerrecette(@RequestBody Map<String, String> vdata, HttpServletResponse response,HttpServletRequest request) throws Exception{
+       String l="";
+        String idpatient=vdata.get("idpatient");
+        Double prix=Double.parseDouble(vdata.get("prix"))+0.0;
+        String d=vdata.get("dateRecette");
+        ServRecette sv=new ServRecette();
+        if(sv.testIfRemboursable(idpatient)!=0){
+            sv.updateRecette(idpatient,prix,d);
+            return "ok";
+        }
+       return "non ok";
+    }
 }

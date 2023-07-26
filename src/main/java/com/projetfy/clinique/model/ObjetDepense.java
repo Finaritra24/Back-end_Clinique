@@ -8,8 +8,8 @@ public class ObjetDepense {
     private List<String> mois;
     private String categorie;
     private String nom;
-    private double prix;
-    public ObjetDepense(String jour,String annee,List<String> mois,String categorie,String nom,double prix){
+    private String prix;
+    public ObjetDepense(String jour,String annee,List<String> mois,String categorie,String nom,String prix){
         this.jour=jour;
         this.annee=annee;
         this.mois=mois;
@@ -33,11 +33,11 @@ public class ObjetDepense {
         this.nom = nom;
     }
 
-    public double getPrix() {
+    public String getPrix() {
         return this.prix;
     }
 
-    public void setPrix(double prix) {
+    public void setPrix(String prix) {
         this.prix = prix;
     }
   
